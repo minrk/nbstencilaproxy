@@ -9,17 +9,15 @@ class StencilaProxyHandler(SuperviseAndProxyHandler):
 
     name = 'stencila'
 
+    def get_env(self):
+        return {
+            'STENCILA_PORT': str(self.port),
+            'STENCILA_ARCHIVE_DIR': self.state['notebook_dir'],
+        }
+
     def get_cmd(self):
-        cmd = ' '.join(map(pipes.quote, [
-            'node',
-            'make',
-            '-w',
-            '-s',
-            '-d',
-            self.state['notebook_dir'],
-        ]))
         return [
-            'sh', '-c', 'cd "$STENCILA_DIR"; ' + cmd,
+            'sh', '-c', 'cd "$STENCILA_DIR"; node stencila.js',
         ]
 
 
@@ -29,7 +27,6 @@ def add_handlers(app):
             app.base_url + 'stencila/(.*)',
             StencilaProxyHandler,
             dict(state=dict(
-                port=4000,
                 notebook_dir=app.notebook_dir,
             )),
         ),
