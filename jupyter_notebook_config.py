@@ -13,6 +13,7 @@ class StencilaProxyHandler(SuperviseAndProxyHandler):
         return {
             'STENCILA_PORT': str(self.port),
             'STENCILA_ARCHIVE_DIR': self.state['notebook_dir'],
+            'BASE_URL': self.state['base_url'],
         }
 
     def get_cmd(self):
@@ -27,6 +28,7 @@ def add_handlers(app):
             app.base_url + 'stencila/(.*)',
             StencilaProxyHandler,
             dict(state=dict(
+                base_url=app.base_url,
                 notebook_dir=app.notebook_dir,
             )),
         ),
