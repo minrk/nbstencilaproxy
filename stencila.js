@@ -14,9 +14,7 @@ darServer.serve(server, {
   apiUrl: "/archives"
 });
 
-var staticDir = path.resolve(
-  path.join(__dirname, "node_modules", "stencila", "dist")
-);
+var staticDir = __dirname;
 
 console.log("Stencila app root: %s", staticDir);
 console.log("DAR archive path: %s", archiveDir);
