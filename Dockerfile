@@ -12,6 +12,8 @@ WORKDIR ${STENCILA_DIR}
 ADD package.json package.json
 RUN npm install
 ADD stencila.js stencila.js
+ADD index.html index.html
+ADD app.js app.js
 
 WORKDIR ${HOME}
 ADD requirements.txt /tmp/requirements.txt
@@ -19,3 +21,6 @@ RUN pip install --no-cache -r /tmp/requirements.txt
 
 RUN test -d ${HOME}/.jupyter/ || mkdir ${HOME}/.jupyter/
 ADD jupyter_notebook_config.py ${HOME}/.jupyter/jupyter_notebook_config.py
+
+ADD --chown=1000 archive/kitchen-sink ${HOME}/kitchen-sink
+ADD --chown=1000 archive/py-jupyter ${HOME}/py-jupyter
