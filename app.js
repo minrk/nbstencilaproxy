@@ -7,9 +7,9 @@
   window.addEventListener('load', () => {
     substance.substanceGlobals.DEBUG_RENDERING = substance.platform.devtools;
     stencila.StencilaWebApp.mount({
-      archiveId: substance.getQueryStringParam('archive') || 'manuscript',
+      archiveId: substance.getQueryStringParam('archive') || 'kitchen-sink',
       storageType: substance.getQueryStringParam('storage') || 'fs',
-      storageUrl: substance.getQueryStringParam('storageUrl') || '/archives'
+      storageUrl: substance.getQueryStringParam('storageUrl') || './archives'
     }, window.document.body);
   });
 
