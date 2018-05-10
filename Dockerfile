@@ -13,3 +13,8 @@ RUN git clone --depth 1 https://github.com/stencila/stencila.git ${STENCILA_DIR}
 RUN npm install
 
 WORKDIR ${HOME}
+ADD requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache -r /tmp/requirements.txt
+
+RUN test -d ${HOME}/.jupyter/ || mkdir ${HOME}/.jupyter/
+ADD jupyter_notebook_config.py ${HOME}/.jupyter/jupyter_notebook_config.py
