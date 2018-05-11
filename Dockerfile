@@ -12,6 +12,7 @@ WORKDIR ${STENCILA_DIR}
 ADD package.json package.json
 RUN npm install
 ADD stencila.js stencila.js
+ADD stencila-host.js stencila-host.js
 ADD index.html index.html
 ADD app.js app.js
 

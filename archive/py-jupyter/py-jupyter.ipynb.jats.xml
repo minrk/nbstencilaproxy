@@ -33,7 +33,7 @@
       <title>Code cells</title>
       <p>Code cells in notebooks are imported without loss. Stencila&#x2019;s user interface currently differs from Jupyter in that code cells are executed on update while you are typing. This produces a very reactive user experience but is inappropriate for more compute intensive, longer running code cells. We are currently working on improving this to allowing users to decide to execute cells explicitly (e.g.&#xA0;using <monospace>Ctrl+Enter</monospace>).</p>
       <code specific-use="cell"><named-content><alternatives>
-          <code specific-use="source" language="py" executable="yes">import sys
+          <code specific-use="source" language="pyjp" executable="yes">import sys
 import time
 &apos;Hello this is Python %s.%s and it is %s&apos; % (sys.version_info[0], sys.version_info[1], time.strftime(&apos;%c&apos;))</code>
       <code specific-use="output" language="json">{}</code>
@@ -42,7 +42,7 @@ import time
       </code>
       <p>Stencila also support Jupyter code cells that produce plots. The cell below produces a simple plot based on the example from <ext-link ext-link-type="uri" xlink:href="https://matplotlib.org/examples/shapes_and_collections/scatter_demo.html">the Matplotlib website</ext-link>. Try changing the code below (for example, the variable <monospace>N</monospace>).</p>
       <code specific-use="cell"><named-content><alternatives>
-          <code specific-use="source" language="py" executable="yes">import numpy as np
+          <code specific-use="source" language="pyjp" executable="yes">import numpy as np
 import matplotlib.pyplot as plt
 
 N = 50
@@ -52,7 +52,8 @@ y = np.random.rand(N)
 colors = np.random.rand(N)
 area = np.pi * (15 * np.random.rand(N))**2  # 0 to 15 point radii
 
-plt.scatter(x, y, s=area, c=colors, alpha=0.5)</code>
+plt.scatter(x, y, s=area, c=colors, alpha=0.5)
+plt.show()</code>
       <code specific-use="output" language="json">{}</code>
       </alternatives>
       </named-content>

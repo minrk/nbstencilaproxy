@@ -27,6 +27,35 @@ Relevant path configurations comprise the local storage path _as well as_ the UR
 
 The `Dockerfile` installs our helper npm package and adds + configures the `nbserverproxy` tool (see `requirements.txt` and `jupyter_notebook_config.py`).
 
+
+### Connecting Stencila to Jupyter kernels
+
+Stencila has "execution contexts" (the equivalent of Jupyter's "kernels") for R, Python, SQL, Javascript (in the browser), and Node.js. Execution contexts differ from kernels in a number of ways including local execution and dependency analysis of cells. Both of these are necessary for the reactive, functional execution model of Stencila Articles and Sheets.
+
+We could install these execution contexts in the Docker image. However, Stencila also has a `JupyterContext` which acts as a bridge between Stencila's API and Jupyter kernels. So, since the base `jupyter/minimal-notebook` image already has a Jupyter kernel for Python installed it we decided to use that. This does mean however, that some of the reactive aspects of the Stencila UI won't work as expected. Also the `JupyterContext` is not well developed or tested.
+
+We have included the [`stencila-node`](https://www.npmjs.com/package/stencila-node) Node.js package in the Docker image which provides the `JupyterContext` as well as a `NodeContext` (for executing Javascript) and a `SqliteContext` (for executing SQL) .
+
+
+## Development
+
+- Build the Docker image:
+
+```bash
+docker build --tag jupyter-dar .
+```
+
+- Run the Docker image:
+
+```bash
+docker run -p 8888:8888 jupyter-dar
+```
+
+- Login by visiting the tokenized URL displayed e.g. `http://localhost:8888/?token=99a7bc13...`
+
+- Go to http://localhost:8888/stencila/
+
+
 ## License
 
 BSD 3-Clause License
