@@ -23,6 +23,7 @@ ADD --chown=1000 setup.py /tmp/nbstencilaproxy/setup.py
 ADD --chown=1000 nbstencilaproxy /tmp/nbstencilaproxy/nbstencilaproxy
 RUN pip install /tmp/nbstencilaproxy && \
   rm -r /tmp/nbstencilaproxy
+
 # https://github.com/r-lib/devtools/issues/1722
 ENV TAR /bin/tar
 ADD install.R install.R
