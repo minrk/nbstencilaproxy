@@ -16,7 +16,9 @@
     <script type="text/javascript" src="./node_modules/stencila/dist/env.js"></script>
     <script type="text/javascript" src="./app.js"></script>
     <script type="text/javascript">
-        window.STENCILA_HOSTS = window.location.origin + '/stencila-host'
+        // Set the URL for the Stencila host based on the current window's URL which on Binder looks like:
+        // https://hub.mybinder.org/user/nokome-jupyter-dar-xufgzr0d/stencila/?token=c1KzGj7XRg-Gyur8rr-U3pQ
+        window.STENCILA_HOSTS = (window.location.origin + window.location.pathname).replace('/stencila/', '/stencila-host')
     </script>
   </head>
   <body></body>
