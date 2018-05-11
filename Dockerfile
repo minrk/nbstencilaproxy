@@ -20,8 +20,14 @@ WORKDIR ${HOME}
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache -r /tmp/requirements.txt
 
-RUN test -d ${HOME}/.jupyter/ || mkdir ${HOME}/.jupyter/
-ADD jupyter_notebook_config.py ${HOME}/.jupyter/jupyter_notebook_config.py
+ADD --chown=1000 setup.py /tmp/nbstencilaproxy/setup.py
+ADD --chown=1000 nbstencilaproxy /tmp/nbstencilaproxy/nbstencilaproxy
+RUN pip install /tmp/nbstencilaproxy && \
+  rm -r /tmp/nbstencilaproxy
+
+RUN jupyter serverextension enable --sys-prefix --py nbstencilaproxy
+RUN jupyter nbextension install    --sys-prefix --py nbstencilaproxy
+RUN jupyter nbextension enable     --sys-prefix --py nbstencilaproxy
 
 ADD --chown=1000 archive/kitchen-sink ${HOME}/kitchen-sink
 ADD --chown=1000 archive/py-jupyter ${HOME}/py-jupyter

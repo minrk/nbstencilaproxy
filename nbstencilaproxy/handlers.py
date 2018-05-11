@@ -1,7 +1,21 @@
 import pipes
 import sys
 
+from tornado import web
+from urllib.parse import urlunparse, urlparse
+
+from notebook.utils import url_path_join as ujoin
+from notebook.base.handlers import IPythonHandler
+
 from nbserverproxy.handlers import SuperviseAndProxyHandler
+
+class AddSlashHandler(IPythonHandler):
+    """Handler for adding trailing slash to URLs that need them"""
+    @web.authenticated
+    def get(self, *args):
+        src = urlparse(self.request.uri)
+        dest = src._replace(path=src.path + '/')
+        self.redirect(urlunparse(dest))
 
 # define our proxy handler for proxying the application
 
@@ -37,7 +51,7 @@ class StencilaHostProxyHandler(SuperviseAndProxyHandler):
         ]
 
 
-def add_handlers(app):
+def setup_handlers(app):
     app.web_app.add_handlers('.*', [
         (
             app.base_url + 'stencila/(.*)',
@@ -56,14 +70,3 @@ def add_handlers(app):
             )),
         ),
     ])
-
-
-# fake a module to load the proxy handler as an extension
-module_name = '_myproxymod'
-import types
-mod = types.ModuleType(module_name)
-sys.modules[module_name] = mod
-mod.load_jupyter_server_extension = add_handlers
-c.NotebookApp.nbserver_extensions.update({
-    module_name: True,
-})
