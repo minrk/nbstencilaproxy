@@ -32,7 +32,8 @@ class StencilaProxyHandler(SuperviseAndProxyHandler):
 
     def get_cmd(self):
         return [
-            'sh', '-c', 'cd "$STENCILA_DIR"; node stencila.js',
+            "node",
+            "${STENCILA_DIR}/node_modules/jupyter-dar/stencila.js",
         ]
 
 
@@ -47,7 +48,8 @@ class StencilaHostProxyHandler(SuperviseAndProxyHandler):
 
     def get_cmd(self):
         return [
-            'sh', '-c', 'cd "$STENCILA_DIR"; node stencila-host.js',
+            "node",
+            "${STENCILA_DIR}/node_modules/jupyter-dar/stencila-host.js",
         ]
 
 
