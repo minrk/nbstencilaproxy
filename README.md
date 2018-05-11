@@ -6,7 +6,7 @@
 
 Click on the button below to launch an online Jupyter instance on [mybinder.org](https://mybinder.org) based on this repository:
 
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/minrk/jupyter-dar/master?urlpath=%2Fstencila%2F)
+[![Binder](https://mybinder.org/badge.svg)](http://binder.minrk.net/v2/gh/minrk/jupyter-dar/master?urlpath=%2Fstencila%2F)
 
 Open an the example Dar archive by clicking on "New > Stencila Session":
 
