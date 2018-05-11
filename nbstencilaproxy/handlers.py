@@ -1,3 +1,4 @@
+import os
 import pipes
 import sys
 
@@ -26,14 +27,13 @@ class StencilaProxyHandler(SuperviseAndProxyHandler):
     def get_env(self):
         return {
             'STENCILA_PORT': str(self.port),
-            'STENCILA_ARCHIVE_DIR': self.state['notebook_dir'],
             'BASE_URL': self.state['base_url'],
         }
 
     def get_cmd(self):
         return [
             "node",
-            "${STENCILA_DIR}/node_modules/jupyter-dar/stencila.js",
+            os.environ['STENCILA_DIR'] + "/node_modules/jupyter-dar/stencila.js",
         ]
 
 
@@ -49,7 +49,7 @@ class StencilaHostProxyHandler(SuperviseAndProxyHandler):
     def get_cmd(self):
         return [
             "node",
-            "${STENCILA_DIR}/node_modules/jupyter-dar/stencila-host.js",
+            os.environ['STENCILA_DIR'] + "/node_modules/jupyter-dar/stencila-host.js",
         ]
 
 
