@@ -1,1 +1,3 @@
 nbserverproxy
+numpy
+matplotlib
