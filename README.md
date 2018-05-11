@@ -1,6 +1,6 @@
 # jupyter-dar
 
-[Jupyter](https://jupyter.org/) + [DAR](https://github.com/substance/dar) compatibility exploration for running [Stencila](http://stenci.la/) on [binder](https://mybinder.org/)
+[Jupyter](https://jupyter.org/) + [Dar](https://github.com/substance/dar) compatibility exploration for running [Stencila](http://stenci.la/) on [Binder](https://mybinder.org/)
 
 ## Demo
 
