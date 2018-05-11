@@ -22,11 +22,34 @@ class StencilaProxyHandler(SuperviseAndProxyHandler):
         ]
 
 
+class StencilaHostProxyHandler(SuperviseAndProxyHandler):
+
+    name = 'stencila-host'
+
+    def get_env(self):
+        return {
+            'STENCILA_HOST_PORT': str(self.port)
+        }
+
+    def get_cmd(self):
+        return [
+            'sh', '-c', 'cd "$STENCILA_DIR"; node stencila-host.js',
+        ]
+
+
 def add_handlers(app):
     app.web_app.add_handlers('.*', [
         (
             app.base_url + 'stencila/(.*)',
             StencilaProxyHandler,
+            dict(state=dict(
+                base_url=app.base_url,
+                notebook_dir=app.notebook_dir,
+            )),
+
+        ), (
+            app.base_url + 'stencila-host/(.*)',
+            StencilaHostProxyHandler,
             dict(state=dict(
                 base_url=app.base_url,
                 notebook_dir=app.notebook_dir,

@@ -4,7 +4,8 @@
   "description": "javascript dependencies for jupyter-dar",
   "main": "stencila.js",
   "dependencies": {
-    "stencila": "^0.28.0"
+    "stencila": "0.28.1-preview.2",
+    "stencila-node": "stencila/node#jupyter-context"
   },
   "devDependencies": {},
   "scripts": {
