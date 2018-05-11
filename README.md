@@ -36,6 +36,9 @@ We could install these execution contexts in the Docker image. However, Stencila
 
 We have included the [`stencila-node`](https://www.npmjs.com/package/stencila-node) Node.js package in the Docker image which provides the `JupyterContext` as well as a `NodeContext` (for executing Javascript) and a `SqliteContext` (for executing SQL) .
 
+### Stencila with R kernels
+
+http://localhost:8888/stencila/?archive=r-markdown
 
 ## Development
 

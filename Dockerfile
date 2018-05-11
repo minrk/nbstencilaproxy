@@ -1,6 +1,5 @@
-FROM jupyter/minimal-notebook
+FROM jupyter/r-notebook
 
-# roughly based on https://github.com/stencila/stencila/blob/develop/README.md
 # give NB_USER rights in the installation directory
 ENV STENCILA_DIR /opt/stencila
 USER root
@@ -20,8 +19,14 @@ WORKDIR ${HOME}
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache -r /tmp/requirements.txt
 
+# https://github.com/r-lib/devtools/issues/1722
+ENV TAR /bin/tar
+ADD install.R install.R
+RUN Rscript install.R
+
 RUN test -d ${HOME}/.jupyter/ || mkdir ${HOME}/.jupyter/
 ADD jupyter_notebook_config.py ${HOME}/.jupyter/jupyter_notebook_config.py
 
 ADD --chown=1000 archive/kitchen-sink ${HOME}/kitchen-sink
 ADD --chown=1000 archive/py-jupyter ${HOME}/py-jupyter
+ADD --chown=1000 archive/r-markdown ${HOME}/r-markdown
