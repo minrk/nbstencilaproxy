@@ -2,7 +2,17 @@
 
 [Jupyter](https://jupyter.org/) + [DAR](https://github.com/substance/dar) compatibility exploration for running [Stencila](http://stenci.la/) on [binder](https://mybinder.org/)
 
+## Demo
+
+Click on the button below to launch an online Jupyter instance on [mybinder.org](https://mybinder.org) based on this repository:
+
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/minrk/jupyter-dar/master?urlpath=%2Fstencila%2F)
+
+Open an the example Dar archive by clicking on "New > Stencila Session":
+
+![](new-session-button.png)
+
+## About
 
 This project is part of the [eLife  Innovation Sprint 2018](https://elifesci.org/innovationsprint2018) and [Mozilla Global Sprint 2018](https://mozilla.github.io/global-sprint/) (see [https://github.com/mozilla/global-sprint/issues/317](https://github.com/mozilla/global-sprint/issues/317))
 
