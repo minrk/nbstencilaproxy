@@ -21,9 +21,6 @@ const baseUrl = process.env.BASE_URL || "/";
 const serverUrl = baseUrl + "stencila";
 const server = express();
 
-// Register '.html' extension with The Mustache Express
-// server.engine('js', mustacheExpress());
-
 darServer.serve(server, {
   port: port,
   serverUrl: serverUrl,
