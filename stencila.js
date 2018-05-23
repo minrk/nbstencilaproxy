@@ -7,7 +7,7 @@ const mustache = require("mustache");
 
 const port = parseInt(process.env.STENCILA_PORT || "4000");
 const archiveDir = process.env.STENCILA_ARCHIVE_DIR || process.env.HOME;
-if (!process.env.STENCILA_ARCHIVE) var archive = process.env.STENCILA_ARCHIVE;
+var archive = process.env.STENCILA_ARCHIVE;
 if (!archive) {
   for (var name of fs.readdirSync(archiveDir)) {
     if (fs.lstatSync(path.join(archiveDir, name)).isDirectory()) {
