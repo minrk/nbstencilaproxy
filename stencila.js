@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 const darServer = require("dar-server");
 const express = require("express");
 const logging = require("morgan");
@@ -16,7 +17,11 @@ darServer.serve(server, {
   apiUrl: "/archives"
 });
 
-node_modules = path.dirname(path.resolve(__dirname));
+// check for local node_modules
+let node_modules = path.join(__dirname, "node_modules");
+if (!fs.existsSync(node_modules)) {
+    node_modules = path.dirname(path.resolve(__dirname));
+}
 stencilaDist = path.join(node_modules, "stencila", "dist");
 
 console.log("Stencila app root: %s", stencilaDist);
