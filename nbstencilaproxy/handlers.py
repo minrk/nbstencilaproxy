@@ -22,9 +22,9 @@ class AddSlashHandler(IPythonHandler):
 
 
 def _find_stencila_js(name):
-    """Find a stencila.js file, whether it's top-level or in jupyter-dar"""
+    """Find a stencila.js file, whether it's top-level or in node_modules"""
     stencila_dir = os.environ["STENCILA_DIR"]
-    for sub_path in (name, os.path.join("node_modules", "jupyter-dar", name)):
+    for sub_path in (name, os.path.join("node_modules", "nbstencilaproxy", name)):
         stencila_js = os.path.join(stencila_dir, sub_path)
         if os.path.exists(stencila_js):
             return stencila_js

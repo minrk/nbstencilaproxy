@@ -1,7 +1,7 @@
 {
-  "name": "jupyter-dar",
+  "name": "nbstencilaproxy",
   "version": "0.0.1",
-  "description": "javascript dependencies for jupyter-dar",
+  "description": "javascript dependencies for nbstencilaproxy",
   "main": "stencila.js",
   "dependencies": {
     "morgan": "^1.9.0",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/minrk/jupyter-dar.git"
+    "url": "git+https://github.com/minrk/nbstencilaproxy.git"
   },
   "keywords": [
     "jupyter",
@@ -30,7 +30,7 @@
   "author": "Min RK, Daniel Nüst",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/minrk/jupyter-dar/issues"
+    "url": "https://github.com/minrk/nbstencilaproxy/issues"
   },
-  "homepage": "https://github.com/minrk/jupyter-dar#readme"
+  "homepage": "https://github.com/minrk/nbstencilaproxy#readme"
 }
