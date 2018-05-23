@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -exuo pipefail
+
+export SRC_DIR="${PWD}"
+export STENCILA_DIR="${PWD}"
+
+# enable stencila-proxy extension
+pip install -e .
+jupyter serverextension enable --sys-prefix --py nbstencilaproxy
+jupyter nbextension install    --sys-prefix --py nbstencilaproxy
+jupyter nbextension enable     --sys-prefix --py nbstencilaproxy
+
+# install stencila
+npm install
+
+# set environment variables via notebook config
+mkdir -p ~/.jupyter
+cat >> ~/.jupyter/jupyter_notebook_config.py <<EOF
+
+import os
+os.environ["STENCILA_DIR"] = "${STENCILA_DIR}"
+os.environ["STENCILA_ARCHIVE_DIR"] = "${SRC_DIR}/archive"
+os.environ["STENCILA_ARCHIVE"] = "py-jupyter"
+
+EOF
