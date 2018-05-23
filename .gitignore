@@ -82,6 +82,12 @@ celerybeat-schedule
 # dotenv
 .env
 
+# general
+.DS_Store
+.cache
+.pytest-cache
+nbstencilaproxy/package-lock.json
+
 # virtualenv
 .venv
 venv/
