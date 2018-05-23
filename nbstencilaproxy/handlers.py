@@ -72,5 +72,7 @@ def setup_handlers(app):
                 StencilaHostProxyHandler,
                 dict(state=dict(base_url=app.base_url, notebook_dir=app.notebook_dir)),
             ),
+            (app.base_url + "stencila", AddSlashHandler),
+            (app.base_url + "stencila-host", AddSlashHandler),
         ],
     )
