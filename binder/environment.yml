@@ -1,0 +1,5 @@
+dependencies:
+  - numpy
+  - matplotlib
+  - nodejs=8
+  - nbserverproxy>=0.8.3
