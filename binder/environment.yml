@@ -3,3 +3,5 @@ dependencies:
   - matplotlib
   - nodejs=8
   - nbserverproxy>=0.8.3
+  - pip:
+    - "git+https://github.com/stencila/py.git"
