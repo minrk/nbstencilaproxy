@@ -75,21 +75,21 @@ The Dockerfile contains an example installation on top of [jupyter/r-notebook](h
 
 ## Development
 
-- Build the Docker image:
+- [Test locally with `repo2docker`](https://repo2docker.readthedocs.io/en/latest/usage.html#running-repo2docker-locally)
 
 ```bash
-docker build --tag jupyter-dar .
-```
-
-- Run the Docker image:
-
-```bash
-docker run -p 8888:8888 jupyter-dar
+# install repo2docker
+jupyter-repo2docker --debug .
 ```
 
 - Login by visiting the tokenized URL displayed e.g. `http://localhost:8888/?token=99a7bc13...`
 
-- Go to http://localhost:8888/stencila/ or click on the "New > Stencila Session" button on the Jupyter start page
+- Click on the "New > Stencila Session" button on the Jupyter start page, or
+
+- Open one of the included examples by appending the following parameters to the URL:
+  - Python (Jupyter Kernel): `?archive=py-jupyter`
+  - R: `?archive=r-markdown`
+  - Mini ([Stencila's own data analysis language](https://github.com/stencila/mini)): `?archive=kitchen-sink`
 
 ## License
 
