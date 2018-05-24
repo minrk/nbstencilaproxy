@@ -28,6 +28,21 @@ This project comprises two modules:
 
 ## How?
 
+### Configuration of the image
+
+Several configuration files in the directory `binder/` are picked up by mybinder.org during the image build process and install the required software and several Stencila kernels.
+
+- `environment.yml` and `requirements.txt` install Python dependencies
+- `runtime.txt` adds an R installation
+- `ìnstall.R` installes and configures the R context for Stencila
+- `postBuild`
+  - installs the notebook extensions for
+    - running a Stencila host and the Stencila user interface via a proxy (details below)
+    - extending the Jupyter UI
+    - enabling the Stencila Jupyter context
+
+The default archive is set in `binder/postBuild` by configuring the environment variable `STENCILA_ARCHIVE`.
+
 ### Running Stencila in the Jupyter container
 
 We first used Stencila's development build to run the app using `node make -w -s -d /our/own/dir`, but struggled a bit to configure the file storage, i.e. the `dar-server`, to use the directory we want to, and to run it in a full path configured by us instead of `make.js` starting the `dar-server` relative to `__dirname`.
@@ -71,8 +86,6 @@ jupyter nbextension     install --py --sys-prefix nbstencilaproxy
 jupyter nbextension     enable  --py --sys-prefix nbstencilaproxy
 ```
 
-The Dockerfile contains an example installation on top of [jupyter/r-notebook](https://github.com/jupyter/docker-stacks/tree/master/r-notebook).
-
 ## Development
 
 - [Test locally with `repo2docker`](https://repo2docker.readthedocs.io/en/latest/usage.html#running-repo2docker-locally)
@@ -84,7 +97,7 @@ jupyter-repo2docker --debug .
 
 - Login by visiting the tokenized URL displayed e.g. `http://localhost:8888/?token=99a7bc13...`
 
-- Click on the "New > Stencila Session" button on the Jupyter start page, or
+- Click on the "New > Stencila Session" button on the Jupyter start page, opening the `py-jupyter` example, or
 
 - Open one of the included examples by appending the following parameters to the URL:
   - Python (Jupyter Kernel): `?archive=py-jupyter`
