@@ -1,4 +1,4 @@
-# jupyter-dar
+# Jupyter + DAR/stencila = nbstencilaproxy
 
 [Jupyter](https://jupyter.org/) + [Dar](https://github.com/substance/dar) compatibility exploration for running [Stencila](http://stenci.la/) on [Binder](https://mybinder.org/)
 
@@ -6,7 +6,7 @@
 
 Click on the button below to launch an online Jupyter instance on [mybinder.org](https://mybinder.org) based on this repository:
 
-[![Binder](https://mybinder.org/badge.svg)](http://binder.minrk.net/v2/gh/minrk/jupyter-dar/master?urlpath=%2Fstencila%2F)
+Try it out! [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/minrk/nbstencilaproxy/master?urlpath=stencila)
 
 Open an the example Dar archive by clicking on "New > Stencila Session":
 
@@ -19,7 +19,7 @@ This project is part of the [eLife  Innovation Sprint 2018](https://elifesci.org
 This project comprises two modules:
 
 - a JavaScript package for installing and running Stencila (client/UI and services) in a Jupyter container
-- a Python package for installing and running a proxy (based on [`nbserverproxy`](https://github.com/jupyterhub/nbserverproxy)) to access the UI as well as services provided by Stencila; the package also extends the Jupyter UI to add a "New Stencila Session" button
+- a Python package (nbstencilaproxy) for installing and running a proxy (based on [`nbserverproxy`](https://github.com/jupyterhub/nbserverproxy)) to access the UI as well as services provided by Stencila; the package also extends the Jupyter UI to add a "New Stencila Session" button
 
 ## Team
 
