@@ -23,5 +23,5 @@ console.log("DAR public URL: %s", serverUrl);
 console.log("Serving stencila on :%s", port);
 
 server.use("/", express.static(staticDir));
-server.use(express.logger('dev'));
+//server.use(express.logger('dev'));
 server.listen(port);

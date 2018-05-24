@@ -11,7 +11,7 @@ WORKDIR ${STENCILA_DIR}
 ADD package.json package.json
 RUN npm install
 ADD stencila.js stencila.js
-ADD stencila-host.js stencila-host.js
+ADD stencila-host.R stencila-host.R
 ADD index.html index.html
 ADD app.js app.js
 
@@ -19,7 +19,6 @@ WORKDIR ${HOME}
 ADD requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache -r /tmp/requirements.txt
 
-# https://github.com/r-lib/devtools/issues/1722
 ENV TAR /bin/tar
 ADD install.R install.R
 RUN Rscript install.R

@@ -33,7 +33,7 @@ class StencilaHostProxyHandler(SuperviseAndProxyHandler):
 
     def get_cmd(self):
         return [
-            'sh', '-c', 'cd "$STENCILA_DIR"; node stencila-host.js',
+            'sh', '-c', 'cd "$STENCILA_DIR"; Rscript stencila-host.R',
         ]
 
 
