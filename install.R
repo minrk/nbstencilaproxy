@@ -1,6 +1,5 @@
 library(devtools)
 options(unzip = "internal")
-# see https://github.com/stencila/r/blob/master/README.md
-devtools::install_github("stencila/r")
-stencila:::register()
-# install.packages("tidyverse")
+
+devtools::install_github("stencila/r", ref = "f220361438432abca968d2e76a4efe7c5ddde7f1")
+stencila::register()
