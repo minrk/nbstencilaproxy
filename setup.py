@@ -3,7 +3,7 @@ import setuptools
 setuptools.setup(
     name="nbstencilaproxy",
     version='0.1.0.dev',
-    url="https://github.com/nuest/nbstencilaproxy",
+    url="https://github.com/minrk/nbstencilaproxy",
     author="Min RK, Daniel Nüst, Ryan Lovett",
     description="Jupyter extension to proxy Stencila",
     packages=setuptools.find_packages(),

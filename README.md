@@ -1,8 +1,18 @@
 # Jupyter + DAR/stencila = nbstencilaproxy
 
-[Jupyter](https://jupyter.org/) + [DAR](https://github.com/substance/dar) compatibility exploration for running  on [Binder](https://mybinder.org/).
+[Jupyter](https://jupyter.org/) + [Dar](https://github.com/substance/dar) compatibility exploration for running [Stencila](http://stenci.la/) on [Binder](https://mybinder.org/)
+
+## Demo
+
+Click on the button below to launch an online Jupyter instance on [mybinder.org](https://mybinder.org) based on this repository:
 
 Try it out! [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/minrk/nbstencilaproxy/master?urlpath=stencila)
+
+Open an the example Dar archive by clicking on "New > Stencila Session":
+
+![](new-session-button.png)
+
+## About
 
 This project is part of the [eLife  Innovation Sprint 2018](https://elifesci.org/innovationsprint2018) and [Mozilla Global Sprint 2018](https://mozilla.github.io/global-sprint/) (see [https://github.com/mozilla/global-sprint/issues/317](https://github.com/mozilla/global-sprint/issues/317))
 
@@ -17,6 +27,21 @@ This project comprises two modules:
 - [@nuest](https://github.com/nuest)
 
 ## How?
+
+### Configuration of the image
+
+Several configuration files in the directory `binder/` are picked up by mybinder.org during the image build process and install the required software and several Stencila kernels.
+
+- `environment.yml` and `requirements.txt` install Python dependencies
+- `runtime.txt` adds an R installation
+- `ìnstall.R` installes and configures the R context for Stencila
+- `postBuild`
+  - installs the notebook extensions for
+    - running a Stencila host and the Stencila user interface via a proxy (details below)
+    - extending the Jupyter UI
+    - enabling the Stencila Jupyter context
+
+The default archive is set in `binder/postBuild` by configuring the environment variable `STENCILA_ARCHIVE`.
 
 ### Running Stencila in the Jupyter container
 
@@ -61,25 +86,23 @@ jupyter nbextension     install --py --sys-prefix nbstencilaproxy
 jupyter nbextension     enable  --py --sys-prefix nbstencilaproxy
 ```
 
-The Dockerfile contains an example installation on top of [jupyter/r-notebook](https://github.com/jupyter/docker-stacks/tree/master/r-notebook).
-
 ## Development
 
-- Build the Docker image:
+- [Test locally with `repo2docker`](https://repo2docker.readthedocs.io/en/latest/usage.html#running-repo2docker-locally)
 
 ```bash
-docker build --tag jupyter-dar .
-```
-
-- Run the Docker image:
-
-```bash
-docker run -p 8888:8888 jupyter-dar
+# install repo2docker
+jupyter-repo2docker --debug .
 ```
 
 - Login by visiting the tokenized URL displayed e.g. `http://localhost:8888/?token=99a7bc13...`
 
-- Go to http://localhost:8888/stencila/ or click on the "New > Stencila Session" button on the Jupyter start page
+- Click on the "New > Stencila Session" button on the Jupyter start page, opening the `py-jupyter` example, or
+
+- Open one of the included examples by appending the following parameters to the URL:
+  - Python (Jupyter Kernel): `?archive=py-jupyter`
+  - R: `?archive=r-markdown`
+  - Mini ([Stencila's own data analysis language](https://github.com/stencila/mini)): `?archive=kitchen-sink`
 
 ## License
 
