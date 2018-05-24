@@ -40,6 +40,7 @@ Several configuration files in the directory `binder/` are picked up by mybinder
     - running a Stencila host and the Stencila user interface via a proxy (details below)
     - extending the Jupyter UI
     - enabling the Stencila Jupyter context
+  - installs and configures the plain Python context for Stencila
 
 The default archive is set in `binder/postBuild` by configuring the environment variable `STENCILA_ARCHIVE`.
 
