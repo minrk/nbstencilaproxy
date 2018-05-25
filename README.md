@@ -76,7 +76,7 @@ It is based on [**nbrsessionproxy**](https://github.com/jupyterhub/nbrsessionpro
 Install package:
 
 ```
-pip install git+https://github.com/nuest/nbstencilaproxy
+pip install git+https://github.com/minrk/nbstencilaproxy
 ```
 
 Install the extensions for all users on the system:
@@ -89,10 +89,12 @@ jupyter nbextension     enable  --py --sys-prefix nbstencilaproxy
 
 ## Development
 
-- [Test locally with `repo2docker`](https://repo2docker.readthedocs.io/en/latest/usage.html#running-repo2docker-locally)
+- Run locally with `repo2docker`
 
 ```bash
-# install repo2docker
+# install repo2docker: https://repo2docker.readthedocs.io/en/latest/usage.html#running-repo2docker-locally
+
+# run repo2docker for the local repository
 jupyter-repo2docker --debug .
 ```
 

@@ -4,4 +4,4 @@ dependencies:
   - nodejs=8
   - nbserverproxy>=0.8.3
   - pip:
-    - "git+https://github.com/stencila/py.git"
+    - "git+https://github.com/stencila/py.git@a760463020c08c9e3802d21215df8d2c2568c5e7#egg=stencila"
