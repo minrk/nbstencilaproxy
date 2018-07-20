@@ -19,12 +19,30 @@ def npm_install():
         check_call(["npm", "install", "--no-save", tgz], cwd=pkg)
 
 
+def find_package_data():
+    patterns = ["static/**"]
+    package_data = {"nbstencilaproxy": patterns}
+    for parent, dirs, files in os.walk(os.path.join(pkg, "node_modules")):
+        parent = parent[len(pkg) + 1 :]
+        # exclude utterly massive and apparently unused '@stdlib' package
+        if "@stdlib" in parent:
+            continue
+        for d in dirs:
+            if "@stdlib" in d:
+                continue
+            patterns.append("{}/{}/**".format(parent, d))
+    return package_data
+
+
 class build_npm_py(build_py):
     """install with npm packages"""
 
     def run(self):
         # when installing, install npm package
         npm_install()
+        self.distribution.package_data = find_package_data()
+        # re-run finalize to get package_data
+        self.finalize_options()
         return super().run()
 
 
