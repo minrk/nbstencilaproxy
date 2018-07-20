@@ -52,6 +52,8 @@ setuptools.setup(
     url="https://github.com/minrk/" + name,
     author="Min RK, Daniel Nüst, Ryan Lovett",
     description="Jupyter extension to proxy Stencila",
+    long_desription=open("README.md").read(),
+    long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
     cmdclass={"build_py": build_npm_py},
     keywords=["Jupyter"],
