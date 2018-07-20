@@ -2,7 +2,6 @@
 set -exuo pipefail
 
 export SRC_DIR="${PWD}"
-export STENCILA_DIR="${PWD}"
 
 # enable stencila-proxy extension
 python setup.py build_py
