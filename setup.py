@@ -48,7 +48,7 @@ class build_npm_py(build_py):
 
 setuptools.setup(
     name=name,
-    version="0.1.0.dev",
+    version="0.1.0",
     url="https://github.com/minrk/" + name,
     author="Min RK, Daniel Nüst, Ryan Lovett",
     description="Jupyter extension to proxy Stencila",
