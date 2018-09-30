@@ -48,10 +48,12 @@ class build_npm_py(build_py):
 
 setuptools.setup(
     name=name,
-    version="0.1.0",
+    version="0.1.1",
     url="https://github.com/minrk/" + name,
     author="Min RK, Daniel Nüst, Ryan Lovett",
     description="Jupyter extension to proxy Stencila",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
     cmdclass={"build_py": build_npm_py},
     keywords=["Jupyter"],
