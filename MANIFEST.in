@@ -6,4 +6,3 @@ include *.js
 include *.json
 include *ignore
 graft archive
-graft binder
