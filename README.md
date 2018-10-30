@@ -1,14 +1,16 @@
-# Jupyter + DAR/stencila = nbstencilaproxy
+# Jupyter + Stencila = `nbstencilaproxy`
 
-[Jupyter](https://jupyter.org/) + [Dar](https://github.com/substance/dar) compatibility exploration for running [Stencila](http://stenci.la/) on [Binder](https://mybinder.org/)
+[Jupyter](https://jupyter.org/) + [Dar](https://github.com/substance/dar) file format compatibility exploration for running [Stencila](http://stenci.la/) editor on [Binder](https://mybinder.org/)
+
+[![PyPI version](https://badge.fury.io/py/nbstencilaproxy.svg)](https://badge.fury.io/py/nbstencilaproxy)
 
 ## Demo
 
 Click on the button below to launch an online Jupyter instance on [mybinder.org](https://mybinder.org) based on this repository:
 
-Try it out! [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/minrk/nbstencilaproxy/master?urlpath=stencila)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/minrk/nbstencilaproxy/master?urlpath=stencila)
 
-Open an the example Dar archive by clicking on "New > Stencila Session":
+Open an the example Dar project by clicking on "New > Stencila Session":
 
 ![](new-session-button.png)
 
@@ -16,70 +18,74 @@ Open an the example Dar archive by clicking on "New > Stencila Session":
 
 This project is part of the [eLife  Innovation Sprint 2018](https://elifesci.org/innovationsprint2018) and [Mozilla Global Sprint 2018](https://mozilla.github.io/global-sprint/) (see [https://github.com/mozilla/global-sprint/issues/317](https://github.com/mozilla/global-sprint/issues/317))
 
-This project comprises two modules:
+The projects core module is a Python package, `nbstencilaproxy`, which is [available on PyPI](https://pypi.org/project/nbstencilaproxy/).
+It is based on [`nbserverproxy`](https://github.com/jupyterhub/nbserverproxy) to run the services and the UI required to edit Stencila documents in the browser.
+The concept is inspired by [`nbrsessionproxy`](https://github.com/jupyterhub/nbrsessionproxy).
+
+`nbstencilaproxy` includes the following components:
 
 - a JavaScript package for installing and running Stencila (client/UI and services) in a Jupyter container
-- a Python package (nbstencilaproxy) for installing and running a proxy (based on [`nbserverproxy`](https://github.com/jupyterhub/nbserverproxy)) to access the UI as well as services provided by Stencila; the package also extends the Jupyter UI to add a "New Stencila Session" button
+- extension for the Jupyter UI to add a "New Stencila Session" button
 
 ## Team
 
 - [@minrk](https://github.com/minrk)
 - [@nuest](https://github.com/nuest)
 
-## How?
+## How does it work?
 
-### Configuration of the image
+### The building blocks
 
-Several configuration files in the directory `binder/` are picked up by mybinder.org during the image build process and install the required software and several Stencila kernels.
+Binder relies on [`repo2docker`](https://repo2docker.readthedocs.io/en/latest/) create a runtime environment from source code repositories.
+`repo2docker` was extended as part of this project to detect Dar documents using the file `manifest.xml`, which is contained in all Dars.
+If a `manifest.xml` is found, then `repo2docker` installs `nbstencilaproxy` into the image (see [code](https://github.com/jupyter/repo2docker/blob/master/repo2docker/buildpacks/base.py#L521)) and creates environment variables (`STENCILA_ARCHIVE_DIR` and `STENCILA_ARCHIVE`) to configure a single Dar document to be viewed in the Stencila UI.
 
-- `environment.yml` and `requirements.txt` install Python dependencies
-- `runtime.txt` adds an R installation
-- `ìnstall.R` installes and configures the R context for Stencila
-- `postBuild`
-  - installs the notebook extensions for
-    - running a Stencila host and the Stencila user interface via a proxy (details below)
-    - extending the Jupyter UI
-    - enabling the Stencila Jupyter context
-  - installs and configures the plain Python context for Stencila
+The installation consists of the following steps and components:
 
-The default archive is set in `binder/postBuild` by configuring the environment variable `STENCILA_ARCHIVE`.
+1. Install [Stencila for Python](https://github.com/stencila/py) and/or Stencila for Python](https://github.com/stencila/py) from GitHub and register the package (thanks to the registration, the Stencila Host can find and connect these runtimes)
+1. Install `nbstencilaproxy` itself, including a JavaScript module (see below for description of the npm; see `setup.py` for installation of the npm package as part of the Python module)
+1. Install and enable the `nbstencilaproxy` **Jupyter notebook server extension**,  which serves the Stencila UI and services via proxies (see `nbstencilaproxy/handlers.py`)
+1. Install and enable the `nbstencilaproxy` **Jupyter notebook extension**, which adds a menu item into the Jupyter UI to open Stencila (see `nbstencilaproxy/static/tree.js`)
 
-### Running Stencila in the Jupyter container
+### JavaScript module within `nbstencilaproxy`
 
-We first used Stencila's development build to run the app using `node make -w -s -d /our/own/dir`, but struggled a bit to configure the file storage, i.e. the `dar-server`, to use the directory we want to, and to run it in a full path configured by us instead of `make.js` starting the `dar-server` relative to `__dirname`.
-_Eventually_ we ended up implementing our own minimal npm package that pulls in Stencila as a dependency and runs the `dar-server` and static file server for the app using the files from the `dist` directory.
-See the file `stencila.js` for details.
-This gives us control of the paths and let's us get rid of complex development features (`substance-bundler` etc.).
+The PyPI module includes a small [npm package](https://www.npmjs.com/) with JavaScript code, which serves the following purposes:
+
+- pulls in Stencila' JavaScript depenencies, namely `stencila` and `stencila-host` (see `package.json`)
+- includes code to run the `dar-server` and a static file server for the app using the files from the the module `stencila`s directory `dist` (see the file `stencila.js` for details)
+- run a `stencila-host` on the port provided by nbserverproxy (see `stencila-host.js`)
+
+This gives us control of the paths and let's us get rid of complex development features (e.g. `substance-bundler`).
+
+The package includes [`stencila-node`](https://www.npmjs.com/package/stencila-node) as a dependency.
+It provides the `JupyterContext` as well as a `NodeContext` (for executing Javascript) and a `SqliteContext` (for executing SQL).
 
 We also made our own version of `app.js`, getting rid of the virtual file storage stuff (`vfs`), defaulting storage to `fs` (file system), because that is what is needed for Jupyter - we do not need to host any examples.
-In the same line, we built own `index.html` (based on `example.html`) and serve that, which allows us to directly render a DAR document instead of a listing of examples and instruction and to use our `app.js`.
+In the same line, we built own `index.html` (based on `example.html`) and serve that, which allows us to directly render a Dar document instead of a listing of examples and instruction and to use `app.js`.
 
-Relevant path configurations comprise the local storage path _as well as_ the URLs used by the client, accessing the `dar-server` through the `nbserverproxy`.
-
-The `Dockerfile` installs our helper npm package and adds + configures the `nbserverproxy` tool (see `requirements.txt` and `jupyter_notebook_config.py`).
+Relevant _path configurations_ comprise (a) the local storage path and (b) the URLs used by the client, accessing the `dar-server` through `nbserverproxy`.
 
 ### Connecting Stencila to Jupyter kernels
 
-Stencila has "execution contexts" (the equivalent of Jupyter's "kernels") for R, Python, SQL, Javascript (in the browser), and Node.js. Execution contexts differ from kernels in a number of ways including local execution and dependency analysis of cells. Both of these are necessary for the reactive, functional execution model of Stencila Articles and Sheets.
+Stencila has ["execution contexts"](https://stenci.la/learn/intro.html) (the equivalent of Jupyter's "kernels") for R, Python, SQL, JavaScript (Node.js), and Mini (Stencila's own simple language).
+Execution contexts differ from kernels in a number of ways including local execution and dependency analysis of cells.
+Both of these are necessary for the reactive, functional execution model of Stencila Articles and Sheets.
 
-We could install these execution contexts in the Docker image. However, Stencila also has a `JupyterContext` which acts as a bridge between Stencila's API and Jupyter kernels. So, since the base `jupyter/minimal-notebook` image already has a Jupyter kernel for Python installed it we decided to use that. This does mean however, that some of the reactive aspects of the Stencila UI won't work as expected. Also the `JupyterContext` is not well developed or tested.
+It is possible to install these execution contexts in the Docker image, and is done so for R
+However, Stencila also has a `JupyterContext` which acts as a bridge between Stencila's API and Jupyter kernels.
+Since the base image for BinderHub already has a Jupyter kernel for Python installed, it can always be used.
+This does mean however, that some of the reactive aspects of the Stencila UI won't work as expected.
+Also the `JupyterContext` is not well developed or tested.
 
-We have included the [`stencila-node`](https://www.npmjs.com/package/stencila-node) Node.js package in the Docker image which provides the `JupyterContext` as well as a `NodeContext` (for executing Javascript) and a `SqliteContext` (for executing SQL) .
+## Install locally
 
-### Making Stencila available via a Proxy
-
-**nbstencilaproxy** provides Jupyter server and notebook extensions to proxy Stencila.
-It is based on [**nbrsessionproxy**](https://github.com/jupyterhub/nbrsessionproxy) but does not include the support nbrsessionproxy has for JupyterLab.
-
-**Install**
-
-Install package:
+If you have a local Jupyter instance, you can install the package directly:
 
 ```
-pip install git+https://github.com/minrk/nbstencilaproxy
+pip install nbstencilaproxy
 ```
 
-Install the extensions for all users on the system:
+Enable the extensions for all users on the system:
 
 ```
 jupyter serverextension enable  --py --sys-prefix nbstencilaproxy
@@ -87,25 +93,51 @@ jupyter nbextension     install --py --sys-prefix nbstencilaproxy
 jupyter nbextension     enable  --py --sys-prefix nbstencilaproxy
 ```
 
-## Development
+## Run locally with `repo2docker`
 
-- Run locally with `repo2docker`
+You can run the latest release of `nbstencilaproxy` as part of `repo2docker`.
 
 ```bash
 # install repo2docker: https://repo2docker.readthedocs.io/en/latest/usage.html#running-repo2docker-locally
 
-# run repo2docker for the local repository
-jupyter-repo2docker --debug .
+# run repo2docker for a repository with Dar directories, e.g. archive/ in this repository (add '--no-build' option to only inspect Dockerfile)
+repo2docker --debug ./archive
 ```
 
 - Login by visiting the tokenized URL displayed e.g. `http://localhost:8888/?token=99a7bc13...`
-
 - Click on the "New > Stencila Session" button on the Jupyter start page, opening the `py-jupyter` example, or
-
 - Open one of the included examples by appending the following parameters to the URL:
   - Python (Jupyter Kernel): `?archive=py-jupyter`
   - R: `?archive=r-markdown`
   - Mini ([Stencila's own data analysis language](https://github.com/stencila/mini)): `?archive=kitchen-sink`
+
+## Development
+
+### Updating Stencila
+
+The following places use/install Stencila components in specific versions:
+
+- `repo2docker/buildpacks/base.py` installs github.com/stencila/py
+- `repo2docker/buildpacks/r.py` installs github.com/stencila/r
+- `nbstencilaproxy/package.json` installs [`stencila-node`](https://www.npmjs.com/package/stencila-node) and [`stencila`](https://www.npmjs.com/package/stencila) from npm
+
+### Using local `nbstencilaproxy` in `repo2docker`
+
+This is quite tricky to do, but useful to test the whole stack of tools.
+It could be possible to copy the local files into the container, but a more practical approach is to temporarily telling `repo2docker` to install `nbstencilaproxy` from ones own fork.
+
+In `repo2docker/buildpacks/base.py` find the line with
+
+```bash
+${NB_PYTHON_PREFIX}/bin/pip install --no-cache nbstencilaproxy==0.1.1 && \
+```
+
+which installs `nbstencilaproxy` from PyPI.
+Replace it with the following line (using your username for `<user>`)
+
+```bash
+${NB_PYTHON_PREFIX}/bin/pip install https://github.com/<user>/nbstencilaproxy/archive/master.tar.gz && \
+```
 
 ## License
 
