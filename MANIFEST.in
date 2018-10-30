@@ -1,8 +1,8 @@
 prune nbstencilaproxy/node_modules
 include nbstencilaproxy/package.json
+include *.html
 include *.md
 include *.js
 include *.json
 include *ignore
 graft archive
-graft binder
