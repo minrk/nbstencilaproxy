@@ -58,6 +58,7 @@ setuptools.setup(
     cmdclass={"build_py": build_npm_py},
     keywords=["Jupyter"],
     classifiers=["Framework :: Jupyter"],
-    install_requires=["notebook", "nbserverproxy >= 0.8.3"],
+    install_requires=["notebook", "nbserverproxy >= 0.8.6"],
+    dependency_links=['https://github.com/nokome/nbserverproxy/tarball/master#egg=nbserverproxy-0.8.6'],
     package_data={"nbstencilaproxy": ["static/**", "node_modules/**"]},
 )
