@@ -49,6 +49,15 @@ class StencilaHostProxyHandler(SuperviseAndProxyHandler):
     def get_cmd(self):
         return ["node", _find_stencila_js("stencila-host.js")]
 
+    def proxy_request_options(self):
+        """Increase the request timeout to avoid 599 errors when executing
+        long running cells"""
+        options = super().proxy_request_options()
+        options.update(dict(
+            request_timeout=3600
+        ))
+        return options
+
 
 def setup_handlers(app):
     app.log.info("Enabling stencila proxy")
