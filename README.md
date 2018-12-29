@@ -42,7 +42,7 @@ If a `manifest.xml` is found, then `repo2docker` installs `nbstencilaproxy` into
 
 The installation consists of the following steps and components:
 
-1. Install [Stencila for Python](https://github.com/stencila/py) and/or Stencila for Python](https://github.com/stencila/py) from GitHub and register the package (thanks to the registration, the Stencila Host can find and connect these runtimes)
+1. Install [Stencila for Python](https://github.com/stencila/py) from GitHub and register the package (thanks to the registration, the Stencila Host can find and connect these runtimes)
 1. Install `nbstencilaproxy` itself, including a JavaScript module (see below for description of the npm; see `setup.py` for installation of the npm package as part of the Python module)
 1. Install and enable the `nbstencilaproxy` **Jupyter notebook server extension**,  which serves the Stencila UI and services via proxies (see `nbstencilaproxy/handlers.py`)
 1. Install and enable the `nbstencilaproxy` **Jupyter notebook extension**, which adds a menu item into the Jupyter UI to open Stencila (see `nbstencilaproxy/static/tree.js`)
