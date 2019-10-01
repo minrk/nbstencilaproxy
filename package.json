@@ -4,7 +4,7 @@
   "description": "javascript dependencies for nbstencilaproxy",
   "main": "stencila.js",
   "dependencies": {
-    "morgan": "^1.9.0",
+    "morgan": "^1.9.1",
     "mustache": "^2.3.0",
     "stencila": "0.28.2",
     "stencila-node": "0.28.15"
